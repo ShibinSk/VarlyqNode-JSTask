@@ -6,19 +6,19 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/posts');
 var usersRouter = require('./routes/users');
-
+const connection =require('./DB/connection')
 var app = express();
 
-const db= require('./config/connection')
 
-db.connect((err)=>{
-  if(err){
-    console.log("errrr");
-  }else{
-    console.log("DB CONNECTED");
-  }
-})
 
+// db.connect((err)=>{
+//   if(err){
+//     console.log("errrr");
+//   }else{
+//     console.log("DB CONNECTED");
+//   }
+// })
+connection()
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');

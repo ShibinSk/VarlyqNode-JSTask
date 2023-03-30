@@ -4,14 +4,20 @@ const redis = require("redis");
 
 function authenticateToken(req, res, next) {
   // Verify JWT token
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
-  if (token == null) return res.sendStatus(401);
-
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-    if (err) return res.sendStatus(403);
-    req.user = user;
-    next();
+  const authHeader = req.headers.authorization;
+  if (authHeader === undefined) {
+    res.status(401).send({ error: "No Token Provided" });
+  }
+  let token = authHeader.split(" ")[1];
+  jwt.verify(token, "secret", function (err, decoded) {
+    if (err) {
+      res.status(500).send({ error: "Authentication Feild" });
+    } else {
+      console.log({decoded});
+      req.user= decoded.id
+      next()
+    //   res.send({messegae:"Success"})
+    }
   });
 }
 
