@@ -3,7 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+const dotenv=require('dotenv')
 var indexRouter = require('./routes/posts');
 var usersRouter = require('./routes/users');
 const connection =require('./DB/connection')
@@ -20,6 +20,7 @@ var app = express();
 // })
 connection()
 // view engine setup
+dotenv.config()
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
