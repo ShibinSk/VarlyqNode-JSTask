@@ -9,6 +9,9 @@ router.post('/',usersController.AddUsers)
 router.post('/login',usersController.LoginUser)
 
 
+router.post('/refreshToken',usersController.getRefresh)
+
+
 router.get('/users',midleware,usersController.GetUsers)
 
 

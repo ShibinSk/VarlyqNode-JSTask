@@ -1,11 +1,10 @@
-
 const { ObjectId } = require("mongodb");
 const bson = require("bson");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { user } = require("../model/users");
 const { use } = require("../app");
-
+let refreshtokens = [];
 //Login User
 
 exports.LoginUser = async (req, res) => {
@@ -16,7 +15,7 @@ exports.LoginUser = async (req, res) => {
       const name = req.body.name;
       const password = req.body.password;
       console.log(password);
-      const Users = await user.find()
+      const Users = await user.find();
 
       const isMatch = await bcrypt.compare(password, Users[0].password);
       if (!isMatch) {
@@ -27,12 +26,41 @@ exports.LoginUser = async (req, res) => {
           name: Users[0].name,
         };
 
-        let token = jwt.sign(response, "secret", { expiresIn: 86400 });
+        let token = jwt.sign(response, "secret", { expiresIn: "20s" });
+        let refreshtoken = jwt.sign(response, "refresh", { expiresIn: "7d" });
+        refreshtokens.push(refreshtoken);
         console.log(token);
-        res.status(200).send({ auth: true, token: token });
+        res
+          .status(200)
+          .send({ auth: true, token: token, refreshToken: refreshtokens });
       }
       console.log(isMatch, "passsssssssssss");
     }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// refresh Token
+
+exports.getRefresh = (req, res) => {
+  try {
+    const refreshtoken = req.body.token;
+
+    if (!refreshtoken || !refreshtokens.includes(refreshtoken)) {
+      res.send({ message: "user Note Authenticated" });
+    }
+    jwt.verify(refreshtoken, "refresh", (err, user) => {
+      if (!err) {
+        const accessToken = jwt.sign({ name: user.name }, "secret", {
+          expiresIn: "20s",
+        });
+
+        res.send({accessToken})
+      }else{
+        res.send({message:"user not authenticated"})
+      }
+    });
   } catch (error) {
     console.log(error);
   }
