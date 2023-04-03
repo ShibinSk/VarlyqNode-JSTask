@@ -22,7 +22,7 @@ exports.AddPost = async (req, res) => {
 
     const result = await Post.create(data);
     //  await post.create(data);
-
+   res.status(200).send({Message:"New Post Added"})
     console.log(req.query._id);
   } catch (error) {
     console.log(error);
@@ -41,6 +41,7 @@ exports.addcomment = async (req, res) => {
     await Post.findByIdAndUpdate(req.query._id, {
       $addToSet: data,
     });
+    res.send({Message:"comment Posted"})
   } catch (error) {
     console.log(error);
   }

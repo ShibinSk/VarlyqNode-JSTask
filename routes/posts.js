@@ -7,7 +7,7 @@ const middleware=require('../Jwt/authantication')
 router.get('/',postsController.getPost)
 
 
-router.post('/addpost',middleware,postsController.AddPost)
+router.post('/addpost',postsController.AddPost)
 
 
 router.delete('/delete',postsController.deletePost)

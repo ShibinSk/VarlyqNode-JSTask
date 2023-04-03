@@ -26,7 +26,7 @@ exports.LoginUser = async (req, res) => {
           name: Users[0].name,
         };
 
-        let token = jwt.sign(response, "secret", { expiresIn: "20s" });
+        let token = jwt.sign(response, "secret", { expiresIn: "7d" });
         let refreshtoken = jwt.sign(response, "refresh", { expiresIn: "7d" });
         refreshtokens.push(refreshtoken);
         console.log(token);

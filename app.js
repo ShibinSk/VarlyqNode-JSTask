@@ -8,8 +8,9 @@ var indexRouter = require('./routes/posts');
 var usersRouter = require('./routes/users');
 const connection =require('./DB/connection')
 var app = express();
+var http = require('http');
 
-
+const server = http.createServer(app);
 
 // db.connect((err)=>{
 //   if(err){
@@ -47,6 +48,9 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+
+
+  server.listen(30000)
 });
 
 module.exports = app;
