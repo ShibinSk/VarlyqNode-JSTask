@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon src/app.js",
-    "build": "echo 'Bulding.... (not actually doing something, but usually I would)'"
+    "start": "node ./app.js",
+    "build": "npm i"
   },
   "dependencies": {
     "audit": "^0.0.6",

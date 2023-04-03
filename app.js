@@ -12,15 +12,8 @@ var http = require('http');
 
 const server = http.createServer(app);
 
-// db.connect((err)=>{
-//   if(err){
-//     console.log("errrr");
-//   }else{
-//     console.log("DB CONNECTED");
-//   }
-// })
 connection()
-// view engine setup
+
 dotenv.config()
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -48,9 +41,10 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
 
-
-  server.listen(30000)
+server.listen(3000, () => {
+  console.log('Server listening on port 3000');
 });
 
 module.exports = app;
